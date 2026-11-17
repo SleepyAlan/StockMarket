@@ -1,0 +1,79 @@
+﻿/* Load after bootstrap.css. */
+:root,
+[data-bs-theme="light"] {
+    --bs-body-bg: #F8F9FB;
+    --bs-body-bg-rgb: 248, 249, 251;
+    --bs-body-color: #121A2B;
+    --bs-body-color-rgb: 18, 26, 43;
+    --bs-secondary-color: #4A576B;
+    --bs-secondary-bg: #EFF2F6;
+    --bs-tertiary-bg: #E3E8EF;
+    --bs-border-color: #D5DBE4;
+    --bs-primary: #2753C9;
+    --bs-primary-rgb: 39, 83, 201;
+    --bs-link-color: #1E429F;
+    --bs-link-color-rgb: 30, 66, 159;
+    --bs-link-hover-color: #163380;
+    --bs-link-hover-color-rgb: 22, 51, 128;
+    --bs-success: #0E7A4B;
+    --bs-success-rgb: 14, 122, 75;
+    --bs-danger: #C0262D;
+    --bs-danger-rgb: 192, 38, 45;
+    --app-on-primary: #FFFFFF;
+    --app-hover-mix: #000;
+    --app-gain: #0A6840; /* text-safe on tinted rows */
+    --app-loss: #A51F26;
+}
+
+[data-bs-theme="dark"] {
+    --bs-body-bg: #0B1220;
+    --bs-body-bg-rgb: 11, 18, 32;
+    --bs-body-color: #E6EBF5;
+    --bs-body-color-rgb: 230, 235, 245;
+    --bs-secondary-color: #9AA8BF;
+    --bs-secondary-bg: #121B2D;
+    --bs-tertiary-bg: #1B2740;
+    --bs-border-color: #2A3752;
+    --bs-primary: #5B8CFF;
+    --bs-primary-rgb: 91, 140, 255;
+    --bs-link-color: #8FB0FF;
+    --bs-link-color-rgb: 143, 176, 255;
+    --bs-link-hover-color: #B5CCFF;
+    --bs-link-hover-color-rgb: 181, 204, 255;
+    --bs-success: #3DD68C;
+    --bs-success-rgb: 61, 214, 140;
+    --bs-danger: #FF7B7B;
+    --bs-danger-rgb: 255, 123, 123;
+    --app-on-primary: #0A1020; /* dark ink: white fails on the lighter blue */
+    --app-hover-mix: #fff;
+    --app-gain: #3DD68C;
+    --app-loss: #FF7B7B;
+}
+
+/* Buttons take their colours from per-class variables, not --bs-primary */
+.btn-primary {
+    --bs-btn-color: var(--app-on-primary);
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-color: var(--app-on-primary);
+    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-primary) 88%, var(--app-hover-mix));
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-primary) 88%, var(--app-hover-mix));
+    --bs-btn-active-color: var(--app-on-primary);
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-primary) 80%, var(--app-hover-mix));
+    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-primary) 80%, var(--app-hover-mix));
+    --bs-btn-disabled-color: var(--app-on-primary);
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+/* Tables: Bootstrap's own classes (.table-striped, .table-hover, .table-active = selected row) */
+.table {
+    --bs-table-striped-bg: var(--bs-secondary-bg);
+    --bs-table-hover-bg: color-mix(in srgb, var(--bs-primary) 10%, transparent);
+    --bs-table-active-bg: color-mix(in srgb, var(--bs-primary) 18%, var(--bs-body-bg));
+}
+
+.table-hover > tbody > tr.table-active:hover > * {
+    --bs-table-bg-state: var(--bs-table-active-bg); /* keep selected rows visibly selected on hover */
+}

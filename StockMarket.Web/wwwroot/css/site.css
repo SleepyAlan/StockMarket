@@ -1,31 +1,184 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* Focus ring: buttons only on keyboard focus; text inputs on any focus, as expected */
+.btn:focus-visible,
+.btn-link.nav-link:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem var(--bs-body-bg), 0 0 0 0.25rem var(--bs-primary);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* Bootstrap 5.3 hard-codes these colours in its compiled CSS */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--bs-primary);
 }
 
-body {
-  margin-bottom: 60px;
+.form-check-input:checked,
+.form-check-input[type="checkbox"]:indeterminate {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Floating labels: remove this block if you don't use .form-floating */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* Market movement and numbers (colours come from theme.css) */
+.gain {
+    color: var(--app-gain);
+}
+
+.loss {
+    color: var(--app-loss);
+}
+
+.num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ASP.NET unobtrusive validation uses its own class names, not Bootstrap's .is-invalid */
+.input-validation-error {
+    border-color: var(--bs-danger);
+}
+
+.field-validation-error,
+.validation-summary-errors {
+    color: var(--bs-danger);
+    font-size: .875em;
+}
+
+.field-validation-valid,
+.validation-summary-valid {
+    display: none;
+}
+
+/* Layout: header, collapsible sidebar, sticky footer */
+:root {
+    --app-header-h: 3.5rem;
+    --app-sidebar-w: 15rem;
+    --app-sidebar-speed: 200ms;
+}
+
+main:focus {
+    outline: none; /* skip-link target; not an interactive control */
+}
+
+.app-header {
+    height: var(--app-header-h);
+    padding-block: 0;
+}
+
+.app-body {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.app-sidebar {
+    flex: 0 0 var(--app-sidebar-w);
+    width: var(--app-sidebar-w);
+    align-self: flex-start; /* lets position: sticky work inside a flex row */
+    position: sticky;
+    top: var(--app-header-h);
+    height: calc(100vh - var(--app-header-h));
+    height: calc(100dvh - var(--app-header-h));
+    overflow-y: auto;
+    padding: .75rem;
+    background-color: var(--bs-body-bg);
+    border-inline-end: 1px solid var(--bs-border-color);
+}
+
+.app-main {
+    flex: 1 1 0;
+    min-width: 0; /* wide tables scroll inside their container instead of stretching the page */
+    display: flex;
+    flex-direction: column;
+}
+
+    .app-main > main {
+        flex: 1 0 auto; /* pushes the footer to the bottom on short pages */
+    }
+
+.app-backdrop {
+    display: none;
+}
+
+/* Desktop: sidebar sits in the layout and slides away, giving its space back to the content */
+@media (min-width: 992px) {
+    .app-sidebar {
+        transition: margin-inline-start var(--app-sidebar-speed) ease, visibility 0s;
+    }
+
+    html[data-sidebar="closed"] .app-sidebar {
+        margin-inline-start: calc(-1 * var(--app-sidebar-w));
+        visibility: hidden; /* removes hidden links from the tab order */
+        transition: margin-inline-start var(--app-sidebar-speed) ease, visibility 0s var(--app-sidebar-speed);
+    }
+}
+
+/* Mobile: sidebar is an overlay with a backdrop; closed unless explicitly open */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        position: fixed;
+        top: var(--app-header-h);
+        left: 0;
+        width: min(var(--app-sidebar-w), 85vw);
+        height: calc(100vh - var(--app-header-h));
+        height: calc(100dvh - var(--app-header-h));
+        z-index: 1040;
+        background-color: var(--bs-secondary-bg);
+        overscroll-behavior: contain; /* scrolling the menu doesn't scroll the page behind it */
+        box-shadow: 0 .5rem 1.5rem rgb(0 0 0 / .25);
+        transition: transform var(--app-sidebar-speed) ease, visibility 0s;
+    }
+
+    html:not([data-sidebar="open"]) .app-sidebar {
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform var(--app-sidebar-speed) ease, visibility 0s var(--app-sidebar-speed);
+    }
+
+    .app-backdrop {
+        display: block;
+        position: fixed;
+        inset: var(--app-header-h) 0 0 0;
+        z-index: 1035;
+        background-color: rgb(0 0 0 / .5);
+    }
+
+    html:not([data-sidebar="open"]) .app-backdrop {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-sidebar {
+        transition: none !important;
+    }
+}
+
+/* Nav pills: Bootstrap 5.3 hard-codes the active colour, so point it at the theme */
+.nav-pills {
+    --bs-nav-pills-link-active-bg: var(--bs-primary);
+    --bs-nav-pills-link-active-color: var(--app-on-primary);
 }
