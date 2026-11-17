@@ -14,7 +14,7 @@ html {
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem var(--bs-body-bg), 0 0 0 0.25rem var(--bs-primary);
+    box-shadow: 0 0 0 0.1rem var(--bs-body-bg), 0 0 0 0.25rem var(--bs-primary);
 }
 
 /* Bootstrap 5.3 hard-codes these colours in its compiled CSS */
@@ -181,4 +181,84 @@ main:focus {
 .nav-pills {
     --bs-nav-pills-link-active-bg: var(--bs-primary);
     --bs-nav-pills-link-active-color: var(--app-on-primary);
+}
+
+/* Animated hamburger: three bars morph into an X while the sidebar is open */
+.nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    color: var(--bs-body-color);
+    background: transparent;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    cursor: pointer;
+    transition: background-color .15s ease;
+}
+
+    .nav-toggle:hover {
+        background-color: var(--bs-tertiary-bg);
+    }
+
+    .nav-toggle:focus {
+        outline: none; /* no ring after a mouse click */
+    }
+
+    .nav-toggle:focus-visible {
+        outline: 2px solid var(--bs-primary); /* keyboard focus keeps a visible ring */
+        outline-offset: 2px;
+    }
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+    display: block;
+    width: 1.125rem;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: transform var(--app-sidebar-speed) ease, background-color var(--app-sidebar-speed) ease;
+}
+
+.nav-toggle-bars {
+    position: relative;
+}
+
+    .nav-toggle-bars::before,
+    .nav-toggle-bars::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+
+    .nav-toggle-bars::before {
+        top: -6px;
+    }
+
+    .nav-toggle-bars::after {
+        top: 6px;
+    }
+
+html[data-sidebar="open"] .nav-toggle-bars {
+    background-color: transparent; /* middle bar fades out */
+}
+
+    html[data-sidebar="open"] .nav-toggle-bars::before {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    html[data-sidebar="open"] .nav-toggle-bars::after {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-toggle,
+    .nav-toggle-bars,
+    .nav-toggle-bars::before,
+    .nav-toggle-bars::after {
+        transition: none;
+    }
 }
