@@ -1,7 +1,14 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="StockMarket.Application/StockMarket.Application.csproj" />
     <Project Path="StockMarket.Domain/StockMarket.Domain.csproj" />
+    <Project Path="StockMarket.Infrastructure/StockMarket.Infrastructure.csproj" />
     <Project Path="StockMarket.Web/StockMarket.Web.csproj" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="StockMarket.Application.Tests/StockMarket.Application.Tests.csproj" />
+    <Project Path="StockMarket.Domain.Tests/StockMarket.Domain.Tests.csproj" />
+    <Project Path="StockMarket.Infrastructure.Tests/StockMarket.Infrastructure.Tests.csproj" />
+    <Project Path="StockMarket.Web.Tests/StockMarket.Web.Tests.csproj" />
+  </Folder>
 </Solution>
