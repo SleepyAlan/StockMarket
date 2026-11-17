@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="StockMarket.Domain/StockMarket.Domain.csproj" />
+    <Project Path="StockMarket.Web/StockMarket.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
