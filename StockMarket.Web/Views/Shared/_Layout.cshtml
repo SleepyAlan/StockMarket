@@ -24,6 +24,10 @@
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="~/css/theme.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="icon" href="~/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="~/apple-touch-icon.png" />
+  <meta name="theme-color" content="#2753C9" />
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable" href="#main">Skip to content</a>
@@ -34,7 +38,10 @@
               aria-controls="app-sidebar" aria-expanded="true" aria-label="Toggle navigation">
         <span class="nav-toggle-bars" aria-hidden="true"></span>
       </button>
-      <a class="navbar-brand m-0 fw-semibold" asp-area="" asp-controller="Home" asp-action="Index">StockMarket</a>
+      <a class="navbar-brand m-0 fw-semibold d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="~/favicon.svg" width="28" height="28" alt="" class="me-2" />
+        <span>StockMarket</span>
+      </a>
     </div>
   </header>
 
@@ -54,22 +61,7 @@
         <li class="nav-item">
           <a class="nav-link @(IsActive("Statements") ? "active" : "")"
              aria-current="@(IsActive("Statements") ? "page" : null)"
-             asp-controller="Statements" asp-action="Index">Compare financials</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Portfolio") ? "active" : "")"
-             aria-current="@(IsActive("Portfolio") ? "page" : null)"
-             asp-controller="Portfolio" asp-action="Index">Portfolio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Economy") ? "active" : "")"
-             aria-current="@(IsActive("Economy") ? "page" : null)"
-             asp-controller="Economy" asp-action="Index">Economic dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Trading") ? "active" : "")"
-             aria-current="@(IsActive("Trading") ? "page" : null)"
-             asp-controller="Trading" asp-action="Index">Paper trading</a>
+             asp-controller="Statements" asp-action="Index">PlaceHolder</a>
         </li>
       </ul>
     </nav>
