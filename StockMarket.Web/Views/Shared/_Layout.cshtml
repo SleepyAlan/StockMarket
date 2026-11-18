@@ -32,6 +32,7 @@
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable" href="#main">Skip to content</a>
 
+  @* Header *@
   <header class="app-header navbar bg-body-secondary border-bottom sticky-top px-3">
     <div class="d-flex align-items-center gap-3">
       <button type="button" id="sidebar-toggle" class="nav-toggle"
@@ -46,32 +47,43 @@
   </header>
 
   <div class="app-body">
-    <nav id="app-sidebar" class="app-sidebar" aria-label="Main">
-      <ul class="nav nav-pills flex-column gap-1">
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Stocks") ? "active" : "")"
-             aria-current="@(IsActive("Stocks") ? "page" : null)"
-             asp-controller="Stocks" asp-action="Index">Stock search</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Watchlists") ? "active" : "")"
-             aria-current="@(IsActive("Watchlists") ? "page" : null)"
-             asp-controller="Watchlists" asp-action="Index">Watchlists</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link @(IsActive("Statements") ? "active" : "")"
-             aria-current="@(IsActive("Statements") ? "page" : null)"
-             asp-controller="Statements" asp-action="Index">PlaceHolder</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="app-backdrop" data-sidebar-close></div>
+    @* Sidebar *@
+    <div class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="app-sidebar" aria-labelledby="app-sidebar-label">
+      <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="app-sidebar-label">Menu</h5>
+        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#app-sidebar" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <nav aria-label="Main">
+          <ul class="nav nav-pills flex-column gap-1">
+            <li class="nav-item">
+              <a class="nav-link @(IsActive("Stocks") ? "active" : "")"
+                 aria-current="@(IsActive("Stocks") ? "page" : null)"
+                 asp-controller="Stocks" asp-action="Index">Stock search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link @(IsActive("Watchlists") ? "active" : "")"
+                 aria-current="@(IsActive("Watchlists") ? "page" : null)"
+                 asp-controller="Watchlists" asp-action="Index">Watchlists</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link @(IsActive("placeholder") ? "active" : "")"
+                 aria-current="@(IsActive("placeholder") ? "page" : null)"
+                 asp-controller="placeholder" asp-action="placeholder">PlaceHolder</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
 
     <div class="app-main">
+
+      @* Main content *@
       <main id="main" tabindex="-1" class="container-fluid py-3">
         @RenderBody()
       </main>
+
+      @* Footer *@
       <footer class="app-footer border-top bg-body-secondary text-body-secondary small px-3 py-3">
         <div class="container">
           <div class="row align-items-center">
@@ -88,6 +100,7 @@
           </div>
         </div>
       </footer>
+
     </div>
   </div>
 

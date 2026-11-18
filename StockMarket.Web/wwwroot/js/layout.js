@@ -1,12 +1,15 @@
 ﻿(() => {
     const root = document.documentElement;
     const toggle = document.getElementById("sidebar-toggle");
-    if (!toggle) return;
+    const panel = document.getElementById("app-sidebar");
+    if (!toggle || !panel) return;
 
     const desktop = matchMedia("(min-width: 992px)");
     const isOpen = () => root.dataset.sidebar === "open";
 
-    function setSidebar(open, remember = false) {
+    // data-sidebar drives the hamburger icon. On desktop it also drives the rail;
+    // below lg it mirrors whether the offcanvas drawer is open.
+    function setState(open, remember = false) {
         root.dataset.sidebar = open ? "open" : "closed";
         toggle.setAttribute("aria-expanded", String(open));
         if (remember) {
@@ -14,27 +17,25 @@
         }
     }
 
-    setSidebar(isOpen());   // sync aria-expanded with the state the head script chose
+    setState(isOpen());   // sync aria-expanded with the state the head script chose
 
-    // Only the desktop choice is remembered; mobile always starts closed
-    toggle.addEventListener("click", () => setSidebar(!isOpen(), desktop.matches));
-
-    // Backdrop click closes the mobile overlay
-    document.addEventListener("click", (e) => {
-        if (e.target.closest("[data-sidebar-close]")) setSidebar(false);
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && isOpen() && !desktop.matches) {
-            setSidebar(false);
-            toggle.focus();
+    toggle.addEventListener("click", () => {
+        if (desktop.matches) {
+            setState(!isOpen(), true);                                 // rail: collapse/expand, remembered
+        } else {
+            bootstrap.Offcanvas.getOrCreateInstance(panel).toggle();   // drawer
         }
     });
 
-    // Crossing the breakpoint: restore the saved desktop state, or close for mobile
+    // Keep the icon in step with the drawer, however it was closed (X button, backdrop, Escape).
+    // Ignored on desktop, where the offcanvas is inert and the rail owns the state.
+    panel.addEventListener("show.bs.offcanvas", () => { if (!desktop.matches) setState(true); });
+    panel.addEventListener("hidden.bs.offcanvas", () => { if (!desktop.matches) setState(false); });
+
+    // Crossing the breakpoint: restore the saved desktop state, or start closed for mobile
     desktop.addEventListener("change", (e) => {
         let saved;
         try { saved = localStorage.getItem("sidebar"); } catch { }
-        setSidebar(e.matches ? saved !== "closed" : false);
+        setState(e.matches ? saved !== "closed" : false);
     });
 })();
