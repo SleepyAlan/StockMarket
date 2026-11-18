@@ -1,3 +1,14 @@
+/*
+    Base site.css file for StockMarket.Web. Overrides Bootstrap 5.3 defaults and adds app-specific styles.
+    Site stylesheet structure
+      1) Base / Typography
+      2) Form Controls & Validation
+      3) Market Data Utilities
+      4) App Layout
+      5) Navigation & Sidebar Toggle
+*/
+
+/* === Base / Typography === */
 html {
     font-size: 14px;
 }
@@ -8,7 +19,7 @@ html {
     }
 }
 
-/* Focus ring: buttons only on keyboard focus; text inputs on any focus, as expected */
+/* === Form Controls & Validation === */
 .btn:focus-visible,
 .btn-link.nav-link:focus-visible,
 .form-control:focus,
@@ -17,7 +28,6 @@ html {
     box-shadow: 0 0 0 0.1rem var(--bs-body-bg), 0 0 0 0.25rem var(--bs-primary);
 }
 
-/* Bootstrap 5.3 hard-codes these colours in its compiled CSS */
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
@@ -30,7 +40,6 @@ html {
     border-color: var(--bs-primary);
 }
 
-/* Floating labels: remove this block if you don't use .form-floating */
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
     color: var(--bs-secondary-color);
@@ -40,20 +49,6 @@ html {
 .form-floating > .form-control-plaintext:focus::placeholder,
 .form-floating > .form-control:focus::placeholder {
     text-align: start;
-}
-
-/* Market movement and numbers (colours come from theme.css) */
-.gain {
-    color: var(--app-gain);
-}
-
-.loss {
-    color: var(--app-loss);
-}
-
-.num {
-    text-align: end;
-    font-variant-numeric: tabular-nums;
 }
 
 /* ASP.NET unobtrusive validation uses its own class names, not Bootstrap's .is-invalid */
@@ -72,6 +67,22 @@ html {
     display: none;
 }
 
+/* === Market Data Utilities === */
+/* Market movement and numbers */
+.gain {
+    color: var(--app-gain);
+}
+
+.loss {
+    color: var(--app-loss);
+}
+
+.num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}
+
+/* === App Layout === */
 /* Layout: header, collapsible sidebar, sticky footer */
 :root {
     --app-header-h: 3.5rem;
@@ -80,7 +91,7 @@ html {
 }
 
 main:focus {
-    outline: none; /* skip-link target; not an interactive control */
+    outline: none;
 }
 
 .app-header {
@@ -97,7 +108,7 @@ main:focus {
 .app-sidebar {
     flex: 0 0 var(--app-sidebar-w);
     width: var(--app-sidebar-w);
-    align-self: flex-start; /* lets position: sticky work inside a flex row */
+    align-self: flex-start;
     position: sticky;
     top: var(--app-header-h);
     height: calc(100vh - var(--app-header-h));
@@ -177,6 +188,7 @@ main:focus {
     }
 }
 
+/* === Navigation & Sidebar Toggle === */
 /* Nav pills: Bootstrap 5.3 hard-codes the active colour, so point it at the theme */
 .nav-pills {
     --bs-nav-pills-link-active-bg: var(--bs-primary);
