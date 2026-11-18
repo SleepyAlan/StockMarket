@@ -1,6 +1,6 @@
 ﻿namespace StockMarket.Domain.Entities;
 
-public class WatchListItem
+public class WatchListItem : IEquatable<WatchListItem>
 {
     public Guid WatchListItemId { get; private set; }
     public Guid WatchListId { get; private set; }
@@ -24,5 +24,22 @@ public class WatchListItem
         WatchListId = watchListId;
         StockListingId = stockListingId;
         AddedAtUtc = DateTimeOffset.UtcNow;
+    }
+
+    public bool Equals(WatchListItem? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return WatchListItemId == other.WatchListItemId;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as WatchListItem);
+    }
+
+    public override int GetHashCode()
+    {
+        return WatchListItemId.GetHashCode();
     }
 }

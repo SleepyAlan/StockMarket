@@ -18,10 +18,7 @@ public class WatchList
         {
             throw new ArgumentException("User ID cannot be empty.", nameof(userId));
         }
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentException("Invalid watchlist name: cannot be null, empty, or whitespace.", nameof(name));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
 
         WatchListId = Guid.CreateVersion7();
         UserId = userId;
@@ -52,10 +49,7 @@ public class WatchList
 
     public void Rename(string newName)
     {
-        if (string.IsNullOrWhiteSpace(newName))
-        {
-            throw new ArgumentException("Invalid watchlist name: cannot be null, empty, or whitespace.", nameof(newName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
         Name = newName.Trim();
     }
 }
