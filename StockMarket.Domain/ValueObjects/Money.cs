@@ -31,6 +31,12 @@ public record Money
         return new Money(left.Amount / right.Amount, left.Currency);
     }
 
+    public static Money operator *(Money left, Money right)
+    {
+        EnsureSameCurrency(left, right);
+        return new Money(left.Amount * right.Amount, left.Currency);
+    }
+
     public override string ToString() => $"{Amount} {Currency}";
 
     private static void EnsureSameCurrency(Money left, Money right)
