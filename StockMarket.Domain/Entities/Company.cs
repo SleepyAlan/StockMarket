@@ -42,13 +42,13 @@ public class Company
     #region Validation Methods
     private static string ValidateCountryCode(string countryCode)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(countryCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(countryCode, nameof(countryCode));
 
         string normalized = countryCode.Trim().ToUpperInvariant();
 
         if (normalized.Length != 2 || normalized.Any(c => !char.IsLetter(c)))
         {
-            throw new ArgumentException("Invalid ISO country code.");
+            throw new ArgumentException("Invalid ISO country code.", nameof(countryCode));
         }
 
         return normalized;
@@ -56,29 +56,29 @@ public class Company
 
     private static string ValidateName(string name)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
 
         string normalized = name.Trim();
 
         if (normalized.Length > 200)
         {
-            throw new ArgumentException("Company name cannot exceed 200 characters.");
+            throw new ArgumentException("Company name cannot exceed 200 characters.", nameof(name));
         }
 
         return normalized;
     }
 
-    private static string? ValidateWebsite(string? value)
+    private static string? ValidateWebsite(string? websiteUrl)
     {
-        if (string.IsNullOrWhiteSpace(value)) return null;
+        if (string.IsNullOrWhiteSpace(websiteUrl)) return null;
 
-        string url = value.Trim();
+        string url = websiteUrl.Trim();
 
         if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) ||
             (uri.Scheme != Uri.UriSchemeHttp &&
              uri.Scheme != Uri.UriSchemeHttps))
         {
-            throw new ArgumentException("Website must be a valid HTTP or HTTPS URL.");
+            throw new ArgumentException("Website must be a valid HTTP or HTTPS URL.", nameof(websiteUrl));
         }
 
         return url;
