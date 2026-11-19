@@ -10,8 +10,4 @@
     <ProjectReference Include="..\StockMarket.Domain\StockMarket.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Watchlists\AddStockToWatchlist\" />
-  </ItemGroup>
-
 </Project>
