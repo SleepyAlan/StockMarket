@@ -1,5 +1,6 @@
 using Serilog;
 using StockMarket.Web;
+using StockMarket.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Testing")
@@ -22,7 +23,9 @@ try
             .Enrich.FromLogContext();
     });
 
-    builder.Services.AddWebServices(builder.Environment);
+    builder.Services
+        .AddWebServices(builder.Environment)
+        .AddApplicationServices();
 
     var app = builder.Build();
 

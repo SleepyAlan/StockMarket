@@ -8,7 +8,7 @@ namespace StockMarket.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<SearchStocksHandler>();
         services.AddScoped<GetStockQuoteHandler>();
