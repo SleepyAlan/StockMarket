@@ -1,18 +1,18 @@
 ﻿namespace StockMarket.Domain.Entities;
 
-public class WatchList
+public class Watchlist
 {
-    public Guid WatchListId { get; private set; }
+    public Guid WatchlistId { get; private set; }
     public Guid UserId { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public DateTimeOffset CreatedAtUtc { get; private set; }
-    private readonly List<WatchListItem> _items = [];
+    private readonly List<WatchlistItem> _items = [];
 
-    public IReadOnlyCollection<WatchListItem> Items => _items.AsReadOnly();
+    public IReadOnlyCollection<WatchlistItem> Items => _items.AsReadOnly();
 
-    private WatchList() { }
+    private Watchlist() { }
 
-    public WatchList(Guid userId, string name)
+    public Watchlist(Guid userId, string name)
     {
         if (userId == Guid.Empty)
         {
@@ -20,7 +20,7 @@ public class WatchList
         }
         ArgumentException.ThrowIfNullOrWhiteSpace(name, nameof(name));
 
-        WatchListId = Guid.CreateVersion7();
+        WatchlistId = Guid.CreateVersion7();
         UserId = userId;
         Name = name.Trim();
         CreatedAtUtc = DateTimeOffset.UtcNow;
@@ -37,7 +37,7 @@ public class WatchList
             throw new InvalidOperationException("Stock listing is already in the watchlist.");
         }
 
-        _items.Add(new WatchListItem(WatchListId, stockListingId));
+        _items.Add(new WatchlistItem(WatchlistId, stockListingId));
     }
 
     public void RemoveStock(Guid stockListingId)

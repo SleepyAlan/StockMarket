@@ -16,7 +16,7 @@ public class WatchListTests
         // Arrange
         var userId = Guid.NewGuid();
         // Act
-        Action act = () => new WatchList(userId, invalidName!);
+        Action act = () => new Watchlist(userId, invalidName!);
         // Assert
         act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("name");
     }
@@ -28,7 +28,7 @@ public class WatchListTests
         var emptyUserId = Guid.Empty;
         var name = "My WatchList";
         // Act
-        Action act = () => new WatchList(emptyUserId, name);
+        Action act = () => new Watchlist(emptyUserId, name);
         // Assert
         act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("userId");
     }
@@ -40,12 +40,12 @@ public class WatchListTests
         var userId = Guid.NewGuid();
         var name = "My WatchList";
         // Act
-        var watchList = new WatchList(userId, name);
+        var watchList = new Watchlist(userId, name);
         // Assert
         watchList.UserId.Should().Be(userId);
         watchList.Name.Should().Be(name);
         watchList.Items.Should().BeEmpty();
-        watchList.WatchListId.Should().NotBeEmpty();
+        watchList.WatchlistId.Should().NotBeEmpty();
         watchList.CreatedAtUtc.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(10));
     }
 
@@ -57,7 +57,7 @@ public class WatchListTests
     public void AddStock_GivenValidStockListingId_ShouldAddStockToWatchList()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var stockListingId = Guid.NewGuid();
         // Act
         watchList.AddStock(stockListingId);
@@ -69,7 +69,7 @@ public class WatchListTests
     public void AddStock_GivenDuplicateStockListingId_ShouldThrowInvalidOperationException()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var stockListingId = Guid.NewGuid();
         watchList.AddStock(stockListingId);
         // Act
@@ -82,7 +82,7 @@ public class WatchListTests
     public void AddStock_GivenEmptyStockListingId_ShouldThrowArgumentException()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var emptyStockListingId = Guid.Empty;
         // Act
         Action act = () => watchList.AddStock(emptyStockListingId);
@@ -98,7 +98,7 @@ public class WatchListTests
     public void RemoveStock_GivenExistingStockListingId_ShouldRemoveStockFromWatchList()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var stockListingId = Guid.NewGuid();
         watchList.AddStock(stockListingId);
         // Act
@@ -111,7 +111,7 @@ public class WatchListTests
     public void RemoveStock_GivenNonExistingStockListingId_ShouldThrowInvalidOperationException()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var nonExistingStockListingId = Guid.NewGuid();
         // Act
         Action act = () => watchList.RemoveStock(nonExistingStockListingId);
@@ -123,7 +123,7 @@ public class WatchListTests
     public void RemoveStock_GivenEmptyStockListingId_ShouldThrowInvalidOperationException()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var emptyStockListingId = Guid.Empty;
         // Act
         Action act = () => watchList.RemoveStock(emptyStockListingId);
@@ -139,7 +139,7 @@ public class WatchListTests
     public void Rename_GivenValidNewName_ShouldRenameWatchList()
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         var newName = "Renamed WatchList";
         // Act
         watchList.Rename(newName);
@@ -154,7 +154,7 @@ public class WatchListTests
     public void Rename_GivenInvalidNewName_ShouldThrowArgumentException(string? invalidNewName)
     {
         // Arrange
-        var watchList = new WatchList(Guid.NewGuid(), "My WatchList");
+        var watchList = new Watchlist(Guid.NewGuid(), "My WatchList");
         // Act
         Action act = () => watchList.Rename(invalidNewName!);
         // Assert
