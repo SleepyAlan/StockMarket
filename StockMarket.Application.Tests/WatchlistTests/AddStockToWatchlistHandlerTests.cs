@@ -23,7 +23,6 @@ public class AddStockToWatchlistHandlerTests
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _sut = new AddStockToWatchlistHandler(
             _repositoryMock.Object,
-            _stockListingReaderMock.Object,
             _currentUserMock.Object,
             _unitOfWorkMock.Object);
     }

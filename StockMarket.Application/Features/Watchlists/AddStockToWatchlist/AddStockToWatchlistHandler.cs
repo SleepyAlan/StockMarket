@@ -6,18 +6,15 @@ namespace StockMarket.Application.Features.Watchlists.AddStockToWatchlist;
 public sealed class AddStockToWatchlistHandler
 {
     IWatchlistRepository _repository;
-    IStockListingReader _stockListingReader;
     ICurrentUserService _currentUser;
     IUnitOfWork _unitOfWork;
 
     public AddStockToWatchlistHandler(
-        IWatchlistRepository repository, 
-        IStockListingReader stockListingReader,
+        IWatchlistRepository repository,
         ICurrentUserService currentUser,
         IUnitOfWork unitOfWork)
     {
         _repository = repository;
-        _stockListingReader = stockListingReader;
         _currentUser = currentUser;
         _unitOfWork = unitOfWork;
     }
