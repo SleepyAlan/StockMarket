@@ -6,15 +6,18 @@ namespace StockMarket.Application.Features.Watchlists.AddStockToWatchlist;
 public sealed class AddStockToWatchlistHandler
 {
     private readonly IWatchlistRepository _repository;
+    private readonly IStockListingReader _stockListingReader;
     private readonly ICurrentUserService _currentUser;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddStockToWatchlistHandler(
         IWatchlistRepository repository,
+        IStockListingReader stockListingReader,
         ICurrentUserService currentUser,
         IUnitOfWork unitOfWork)
     {
         _repository = repository;
+        _stockListingReader = stockListingReader;
         _currentUser = currentUser;
         _unitOfWork = unitOfWork;
     }
@@ -39,6 +42,13 @@ public sealed class AddStockToWatchlistHandler
         if (watchlist is null || watchlist.UserId != userId)
         {
             throw new KeyNotFoundException("Watchlist not found.");
+        }
+
+        var stockListingExists = await _stockListingReader
+            .StockListingExistsByIdAsync(command.StockListingId, cancellationToken);
+        if (!stockListingExists)
+        {
+            throw new KeyNotFoundException("Stock listing not found.");
         }
 
         watchlist.AddStock(command.StockListingId);
