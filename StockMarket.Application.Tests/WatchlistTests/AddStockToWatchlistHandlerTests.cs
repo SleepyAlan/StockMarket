@@ -10,7 +10,6 @@ namespace StockMarket.Application.Tests.WatchlistTests;
 public class AddStockToWatchlistHandlerTests
 {
     private readonly Mock<IWatchlistRepository> _repositoryMock;
-    private readonly Mock<IStockListingReader> _stockListingReaderMock;
     private readonly Mock<ICurrentUserService> _currentUserMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly AddStockToWatchlistHandler _sut;
@@ -18,7 +17,6 @@ public class AddStockToWatchlistHandlerTests
     public AddStockToWatchlistHandlerTests()
     {
         _repositoryMock = new Mock<IWatchlistRepository>();
-        _stockListingReaderMock = new Mock<IStockListingReader>();
         _currentUserMock = new Mock<ICurrentUserService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _sut = new AddStockToWatchlistHandler(
