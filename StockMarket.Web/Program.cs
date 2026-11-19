@@ -24,8 +24,8 @@ try
     });
 
     builder.Services
-        .AddWebServices(builder.Environment)
-        .AddApplicationServices();
+        .AddWebServices(builder.Environment);
+    //.AddApplicationServices(); // TODO: Uncomment when concrete implementations are available
 
     var app = builder.Build();
 
