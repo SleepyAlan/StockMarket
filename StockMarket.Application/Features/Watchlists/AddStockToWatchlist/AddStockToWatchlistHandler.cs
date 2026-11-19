@@ -5,9 +5,9 @@ namespace StockMarket.Application.Features.Watchlists.AddStockToWatchlist;
 
 public sealed class AddStockToWatchlistHandler
 {
-    IWatchlistRepository _repository;
-    ICurrentUserService _currentUser;
-    IUnitOfWork _unitOfWork;
+    private readonly IWatchlistRepository _repository;
+    private readonly ICurrentUserService _currentUser;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AddStockToWatchlistHandler(
         IWatchlistRepository repository,
