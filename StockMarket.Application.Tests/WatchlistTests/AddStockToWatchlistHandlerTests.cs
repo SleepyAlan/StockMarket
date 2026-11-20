@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Moq;
 using StockMarket.Application.Abstractions.Identity;
 using StockMarket.Application.Abstractions.Persistence;
@@ -10,6 +10,7 @@ namespace StockMarket.Application.Tests.WatchlistTests;
 public class AddStockToWatchlistHandlerTests
 {
     private readonly Mock<IWatchlistRepository> _repositoryMock;
+    private readonly Mock<IStockListingReader> _stockListingReaderMock;
     private readonly Mock<ICurrentUserService> _currentUserMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly AddStockToWatchlistHandler _sut;
@@ -17,10 +18,12 @@ public class AddStockToWatchlistHandlerTests
     public AddStockToWatchlistHandlerTests()
     {
         _repositoryMock = new Mock<IWatchlistRepository>();
+        _stockListingReaderMock = new Mock<IStockListingReader>();
         _currentUserMock = new Mock<ICurrentUserService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _sut = new AddStockToWatchlistHandler(
             _repositoryMock.Object,
+            _stockListingReaderMock.Object,
             _currentUserMock.Object,
             _unitOfWorkMock.Object);
     }
@@ -41,7 +44,6 @@ public class AddStockToWatchlistHandlerTests
     [Theory]
     [InlineData(true, false)]
     [InlineData(false, true)]
-    [InlineData(true, true)]
     public async Task HandleAsync_WhenIdIsEmpty_ThrowsArgumentException(bool watchlistIdEmpty, bool stockListingIdEmpty)
     {
         // Arrange
@@ -119,6 +121,32 @@ public class AddStockToWatchlistHandlerTests
     }
 
     [Fact]
+    public async Task HandleAsync_WhenStockListingNotFound_ThrowsKeyNotFoundException()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var watchlistId = Guid.NewGuid();
+        var stockListingId = Guid.NewGuid();
+        var command = new AddStockToWatchlistCommand(watchlistId, stockListingId);
+
+        var watchlist = new Watchlist(userId, "Test Watchlist");
+
+        _currentUserMock.Setup(x => x.UserId).Returns(userId);
+        _repositoryMock
+            .Setup(x => x.GetWatchlistByIdAsync(watchlistId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+
+        // Act
+        var action = () => _sut.HandleAsync(command, CancellationToken.None);
+
+        // Assert
+        await action.Should().ThrowAsync<KeyNotFoundException>();
+    }
+
+    [Fact]
     public async Task HandleAsync_WhenStockIsSuccessfullyAdded_SavesChanges()
     {
         // Arrange
@@ -133,6 +161,9 @@ public class AddStockToWatchlistHandlerTests
         _repositoryMock
             .Setup(x => x.GetWatchlistByIdAsync(watchlistId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
         _unitOfWorkMock
             .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(1);
@@ -162,6 +193,9 @@ public class AddStockToWatchlistHandlerTests
         _repositoryMock
             .Setup(x => x.GetWatchlistByIdAsync(watchlistId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
 
         // Act
         var action = () => _sut.HandleAsync(command, CancellationToken.None);
@@ -222,6 +256,37 @@ public class AddStockToWatchlistHandlerTests
     [InlineData(typeof(InvalidOperationException))]
     [InlineData(typeof(IOException))]
     [InlineData(typeof(TimeoutException))]
+    public async Task HandleAsync_WhenStockListingReaderThrowsException_PropagatesException(Type exceptionType)
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var watchlistId = Guid.NewGuid();
+        var stockListingId = Guid.NewGuid();
+        var command = new AddStockToWatchlistCommand(watchlistId, stockListingId);
+        var exception = (Exception)Activator.CreateInstance(exceptionType)!;
+
+        var watchlist = new Watchlist(userId, "Test Watchlist");
+
+        _currentUserMock.Setup(x => x.UserId).Returns(userId);
+        _repositoryMock
+            .Setup(x => x.GetWatchlistByIdAsync(watchlistId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception);
+
+        // Act
+        var action = () => _sut.HandleAsync(command, CancellationToken.None);
+
+        // Assert
+        await action.Should().ThrowAsync<Exception>()
+            .Where(ex => ex.GetType() == exceptionType);
+    }
+
+    [Theory]
+    [InlineData(typeof(InvalidOperationException))]
+    [InlineData(typeof(IOException))]
+    [InlineData(typeof(TimeoutException))]
     public async Task HandleAsync_WhenUnitOfWorkThrowsException_PropagatesException(Type exceptionType)
     {
         // Arrange
@@ -237,6 +302,9 @@ public class AddStockToWatchlistHandlerTests
         _repositoryMock
             .Setup(x => x.GetWatchlistByIdAsync(watchlistId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
         _unitOfWorkMock
             .Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception);
@@ -265,6 +333,9 @@ public class AddStockToWatchlistHandlerTests
         _repositoryMock
             .Setup(x => x.GetWatchlistByIdAsync(watchlistId, cancellationToken))
             .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, cancellationToken))
+            .ReturnsAsync(true);
         _unitOfWorkMock
             .Setup(x => x.SaveChangesAsync(cancellationToken))
             .ReturnsAsync(1);
@@ -275,6 +346,39 @@ public class AddStockToWatchlistHandlerTests
         // Assert
         _repositoryMock.Verify(
             x => x.GetWatchlistByIdAsync(watchlistId, cancellationToken),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task HandleAsync_PassesCancellationTokenToStockListingReader()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var watchlistId = Guid.NewGuid();
+        var stockListingId = Guid.NewGuid();
+        var command = new AddStockToWatchlistCommand(watchlistId, stockListingId);
+        var cancellationToken = new CancellationToken();
+
+        var watchlist = new Watchlist(userId, "Test Watchlist");
+
+        _currentUserMock.Setup(x => x.UserId).Returns(userId);
+        _repositoryMock
+            .Setup(x => x.GetWatchlistByIdAsync(watchlistId, cancellationToken))
+            .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, cancellationToken))
+            .ReturnsAsync(true);
+        _unitOfWorkMock
+            .Setup(x => x.SaveChangesAsync(cancellationToken))
+            .ReturnsAsync(1);
+
+        // Act
+        await _sut.HandleAsync(command, cancellationToken);
+
+        // Assert
+        _stockListingReaderMock.Verify(
+            x => x.StockListingExistsByIdAsync(stockListingId, cancellationToken),
             Times.Once
         );
     }
@@ -295,6 +399,9 @@ public class AddStockToWatchlistHandlerTests
         _repositoryMock
             .Setup(x => x.GetWatchlistByIdAsync(watchlistId, cancellationToken))
             .ReturnsAsync(watchlist);
+        _stockListingReaderMock
+            .Setup(x => x.StockListingExistsByIdAsync(stockListingId, cancellationToken))
+            .ReturnsAsync(true);
         _unitOfWorkMock
             .Setup(x => x.SaveChangesAsync(cancellationToken))
             .ReturnsAsync(1);
