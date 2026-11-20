@@ -9,12 +9,12 @@ namespace StockMarket.Application.Tests.StocksTests;
 
 public class GetCompanyProfileHandlerTests
 {
-    private readonly Mock<ICompanyProfilerProvider> _companyProfilerProviderMock;
+    private readonly Mock<ICompanyProfileProvider> _companyProfilerProviderMock;
     private readonly GetCompanyProfileHandler _sut;
 
     public GetCompanyProfileHandlerTests()
     {
-        _companyProfilerProviderMock = new Mock<ICompanyProfilerProvider>();
+        _companyProfilerProviderMock = new Mock<ICompanyProfileProvider>();
         _sut = new GetCompanyProfileHandler(_companyProfilerProviderMock.Object);
     }
 

@@ -3,7 +3,7 @@ using StockMarket.Application.Features.Stocks.GetCompanyProfile;
 
 namespace StockMarket.Application.Abstractions.StockMarketData;
 
-public interface ICompanyProfilerProvider
+public interface ICompanyProfileProvider
 {
     /// <summary>
     /// Asynchronously gets the company profile for the specified stock reference.

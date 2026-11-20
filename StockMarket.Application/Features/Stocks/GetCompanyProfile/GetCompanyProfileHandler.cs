@@ -4,9 +4,9 @@ namespace StockMarket.Application.Features.Stocks.GetCompanyProfile;
 
 public sealed class GetCompanyProfileHandler
 {
-    private readonly ICompanyProfilerProvider _companyProfilerProvider;
+    private readonly ICompanyProfileProvider _companyProfilerProvider;
 
-	public GetCompanyProfileHandler(ICompanyProfilerProvider companyProfilerProvider)
+	public GetCompanyProfileHandler(ICompanyProfileProvider companyProfilerProvider)
 	{
         _companyProfilerProvider = companyProfilerProvider;
 	}
