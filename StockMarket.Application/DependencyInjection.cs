@@ -12,13 +12,16 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<SearchStocksHandler>();
-        services.AddScoped<GetStockQuoteHandler>();
-        services.AddScoped<GetCompanyProfileHandler>();
+        services // Queries
+            .AddScoped<SearchStocksHandler>()
+            .AddScoped<GetStockQuoteHandler>()
+            .AddScoped<GetCompanyProfileHandler>();
+     
+        services // Commands
+            .AddScoped<CreateWatchlistHandler>()
+            .AddScoped<AddStockToWatchlistHandler>()
+            .AddScoped<RemoveStockFromWatchlistHandler>();
 
-        services.AddScoped<CreateWatchlistHandler>();
-        services.AddScoped<AddStockToWatchlistHandler>();
-        services.AddScoped<RemoveStockFromWatchlistHandler>();
         return services;
     }
 }
