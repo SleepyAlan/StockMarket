@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StockMarket.Application.Features.Stocks.GetCompanyProfile;
+using StockMarket.Application.Features.Stocks.GetHistoricalPrices;
+using StockMarket.Application.Features.Stocks.GetStockDetails;
 using StockMarket.Application.Features.Stocks.GetStockQuote;
 using StockMarket.Application.Features.Stocks.SearchStocks;
 using StockMarket.Application.Features.Watchlists.AddStockToWatchlist;
 using StockMarket.Application.Features.Watchlists.CreateWatchlist;
+using StockMarket.Application.Features.Watchlists.GetWatchlists;
 using StockMarket.Application.Features.Watchlists.RemoveStockFromWatchlist;
 
 namespace StockMarket.Application;
@@ -15,7 +18,10 @@ public static class DependencyInjection
         services // Queries
             .AddScoped<SearchStocksHandler>()
             .AddScoped<GetStockQuoteHandler>()
-            .AddScoped<GetCompanyProfileHandler>();
+            .AddScoped<GetCompanyProfileHandler>()
+            .AddScoped<GetHistoricalPricesHandler>()
+            .AddScoped<GetStockDetailsHandler>()
+            .AddScoped<GetWatchlistsHandler>();
      
         services // Commands
             .AddScoped<CreateWatchlistHandler>()
