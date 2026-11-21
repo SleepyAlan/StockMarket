@@ -8,7 +8,7 @@ public class StockListing
     public Guid CompanyId { get; private set; }
     public TickerSymbol Symbol { get; private set; } = null!;
     public ExchangeCode Exchange { get; private set; } = null!;
-    public CurrencyCode CurrencyCode { get; private set; } = null!;
+    public CurrencyCode Currency { get; private set; } = null!;
     public bool IsActive { get; private set; }
 
     private StockListing() { }
@@ -30,7 +30,7 @@ public class StockListing
 
         Symbol = symbol;
         Exchange = exchange;
-        CurrencyCode = currencyCode;
+        Currency = currencyCode;
 
         IsActive = true;
     }

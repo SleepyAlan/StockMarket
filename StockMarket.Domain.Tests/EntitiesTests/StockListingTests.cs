@@ -24,7 +24,7 @@ public class StockListingTests
         stockListing.CompanyId.Should().Be(companyId);
         stockListing.Symbol.Should().Be(symbol);
         stockListing.Exchange.Should().Be(exchange);
-        stockListing.CurrencyCode.Should().Be(currencyCode);
+        stockListing.Currency.Should().Be(currencyCode);
         stockListing.IsActive.Should().BeTrue();
     }
 
