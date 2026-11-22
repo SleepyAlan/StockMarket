@@ -22,8 +22,4 @@
     <ProjectReference Include="..\StockMarket.Domain\StockMarket.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="StockMarketData\Finnhub\DTOs\" />
-  </ItemGroup>
-
 </Project>
