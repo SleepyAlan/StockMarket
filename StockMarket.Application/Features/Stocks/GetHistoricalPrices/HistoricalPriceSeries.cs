@@ -9,4 +9,5 @@ public sealed record HistoricalPriceSeries(
     HistoricalPriceInterval Interval,
     PriceAdjustmentMode Adjustment,
     string Provider,
+    MarketDataFeed Feed,
     IReadOnlyList<HistoricalPriceBar> Bars);

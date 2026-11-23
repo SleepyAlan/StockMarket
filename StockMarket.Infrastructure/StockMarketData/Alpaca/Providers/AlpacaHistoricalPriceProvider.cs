@@ -99,7 +99,8 @@ public sealed class AlpacaHistoricalPriceProvider : IHistoricalPriceProvider
             Currency: currency,
             Interval: query.Interval,
             Adjustment: query.Adjustment,
-            Provider: "Alpaca (SIP)",
+            Provider: "Alpaca",
+            Feed: MarketDataFeed.Sip,
             Bars: bars);
 
     }

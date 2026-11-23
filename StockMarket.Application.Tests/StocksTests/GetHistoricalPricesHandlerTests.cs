@@ -183,6 +183,7 @@ public class GetHistoricalPricesHandlerTests
             Interval: HistoricalPriceInterval.OneDay,
             Adjustment: PriceAdjustmentMode.Raw,
             Provider: "TestProvider",
+            Feed: MarketDataFeed.Sip,
             Bars: unorderedBars);
 
         _providerMock
@@ -228,6 +229,7 @@ public class GetHistoricalPricesHandlerTests
             Interval: HistoricalPriceInterval.OneDay,
             Adjustment: PriceAdjustmentMode.Raw,
             Provider: "TestProvider",
+            Feed: MarketDataFeed.Sip,
             Bars: sortedBars);
 
         _providerMock
@@ -275,6 +277,7 @@ public class GetHistoricalPricesHandlerTests
             Interval: interval,
             Adjustment: PriceAdjustmentMode.Raw,
             Provider: "TestProvider",
+            Feed: MarketDataFeed.Sip,
             Bars: bars);
 
         _providerMock
@@ -298,7 +301,7 @@ public class GetHistoricalPricesHandlerTests
 
     [Theory]
     [InlineData(PriceAdjustmentMode.Raw)]
-    [InlineData(PriceAdjustmentMode.SplitAndDividendAdjusted)]
+    [InlineData(PriceAdjustmentMode.SplitDividendAndSpinOffAdjusted)]
     public async Task HandleAsync_WithRepresentativeAdjustments_SuccessfullyRetrievesData(PriceAdjustmentMode adjustment)
     {
         // Arrange
@@ -318,6 +321,7 @@ public class GetHistoricalPricesHandlerTests
             Interval: HistoricalPriceInterval.OneDay,
             Adjustment: adjustment,
             Provider: "TestProvider",
+            Feed: MarketDataFeed.Sip,
             Bars: bars);
 
         _providerMock
@@ -361,6 +365,7 @@ public class GetHistoricalPricesHandlerTests
                 Interval: HistoricalPriceInterval.OneDay,
                 Adjustment: PriceAdjustmentMode.Raw,
                 Provider: "TestProvider",
+                Feed: MarketDataFeed.Sip,
                 Bars: []));
 
         var query = new GetHistoricalPricesQuery(
@@ -422,6 +427,7 @@ public class GetHistoricalPricesHandlerTests
             Interval: HistoricalPriceInterval.OneDay,
             Adjustment: PriceAdjustmentMode.Raw,
             Provider: "TestProvider",
+            Feed: MarketDataFeed.Sip,
             Bars: [new HistoricalPriceBar(now, 200m, 205m, 198m, 204m, 1500000)]);
 
         _providerMock
