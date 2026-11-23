@@ -8,5 +8,8 @@ public enum HistoricalPriceInterval
     OneHour,
     OneDay,
     OneWeek,
-    OneMonth
+    OneMonth,
+    ThreeMonths,
+    SixMonths,
+    OneYear,
 }
