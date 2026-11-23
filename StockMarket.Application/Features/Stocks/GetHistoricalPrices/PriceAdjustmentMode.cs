@@ -4,5 +4,7 @@ public enum PriceAdjustmentMode
 {
     Raw,
     SplitAdjusted,
-    SplitAndDividendAdjusted
+    DividendAdjusted,
+    SpinOffAdjusted,
+    SplitDividendAndSpinOffAdjusted
 }
