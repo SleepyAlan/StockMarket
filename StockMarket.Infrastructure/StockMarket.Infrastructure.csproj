@@ -22,4 +22,9 @@
     <ProjectReference Include="..\StockMarket.Domain\StockMarket.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StockMarketData\Alpaca\DTOs\" />
+    <Folder Include="StockMarketData\Alpaca\Providers\" />
+  </ItemGroup>
+
 </Project>
