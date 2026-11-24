@@ -3,6 +3,7 @@ using StockMarket.Application.Features.Stocks.GetCompanyProfile;
 using StockMarket.Application.Features.Stocks.GetHistoricalPrices;
 using StockMarket.Application.Features.Stocks.GetStockDetails;
 using StockMarket.Application.Features.Stocks.GetStockQuote;
+using StockMarket.Application.Features.Stocks.ResolveOrRegisterStockListing;
 using StockMarket.Application.Features.Stocks.SearchStocks;
 using StockMarket.Application.Features.Watchlists.AddStockToWatchlist;
 using StockMarket.Application.Features.Watchlists.CreateWatchlist;
@@ -27,6 +28,7 @@ public static class DependencyInjection
             .AddScoped<CreateWatchlistHandler>()
             .AddScoped<AddStockToWatchlistHandler>()
             .AddScoped<RemoveStockFromWatchlistHandler>();
+        services.AddScoped<ResolveOrRegisterStockListingHandler>();
 
         return services;
     }

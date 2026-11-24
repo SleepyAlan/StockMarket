@@ -34,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(
             sp => sp.GetRequiredService<ApplicationDbContext>());
 
+        services.AddScoped<IStockCatalogRepository, StockCatalogRepository>();
         services.AddScoped<IWatchlistRepository, WatchlistRepository>();
         services.AddScoped<IWatchlistQueries, WatchlistQueries>();
         services.AddScoped<IStockListingReader, StockListingReader>();
@@ -65,6 +66,7 @@ public static class DependencyInjection
         services.AddScoped<IStockSearchProvider, FinnhubStockSearchProvider>();
         services.AddScoped<ICompanyProfileProvider, FinnhubCompanyProfileProvider>();
         services.AddScoped<IQuoteProvider, FinnhubQuoteProvider>();
+        services.AddScoped<IStockListingMetadataProvider, FinnhubStockListingMetadataProvider>();
 
         //TODO: Uncomment after services above are tested and working properly
         //services.Decorate<IStockSearchProvider, CachedStockSearchProvider>();
