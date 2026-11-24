@@ -36,7 +36,7 @@ public sealed class AlpacaHistoricalPriceProvider : IHistoricalPriceProvider
 
         if (currency is null)
         {
-            _logger.LogWarning("Could not find listing currency for stock {StockReference}", query.Stock);
+            _logger.LogWarning("Could not find listing currency for stock {StockReference}.", query.Stock);
             return null;
         }
 

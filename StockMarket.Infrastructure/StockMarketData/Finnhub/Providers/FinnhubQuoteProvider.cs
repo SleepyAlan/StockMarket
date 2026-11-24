@@ -45,6 +45,9 @@ public sealed class FinnhubQuoteProvider : IQuoteProvider
         if (response?.Current is not > 0 ||
             response.Timestamp is null or <= 0)
         {
+            _logger.LogWarning(
+                "Could not get a valid quote for stock {StockReference} from Finnhub. Response: {@Response}",
+                stockReference, response);
             return null;
         }
 

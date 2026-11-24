@@ -29,7 +29,9 @@ public sealed class FinnhubCompanyProfileProvider : ICompanyProfileProvider
             string.IsNullOrWhiteSpace(response.Name) ||
             !string.Equals(response.Ticker, stockReference.Symbol.Value, StringComparison.OrdinalIgnoreCase))
         {
-            _logger.LogInformation("No company profile found for symbol: {Symbol}", stockReference.Symbol.Value);
+            _logger.LogInformation(
+                "No company profile found for symbol: {Symbol}. Finnhub response: {@Response}",
+                stockReference.Symbol.Value, response);
             return null;
         }
 

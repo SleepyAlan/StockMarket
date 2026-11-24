@@ -42,8 +42,9 @@ public sealed class FinnhubStockSearchProvider : IStockSearchProvider
                 results.Add(stockSearchResult);
             }
             catch(ArgumentException) 
-            { // Symbol is unsupported by TickerSymbol value object.
-                _logger.LogInformation("Unsupported symbol: {Symbol}", result.Symbol);
+            {
+                _logger.LogInformation("Unsupported symbol: {Symbol} from {Provider}",
+                    result.Symbol, "Finnhub");
             } 
         }
 
