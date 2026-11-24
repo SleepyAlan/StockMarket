@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Identity;
 using Serilog;
-using StockMarket.Web;
 using StockMarket.Application;
+using StockMarket.Application.Abstractions.Identity;
+using StockMarket.Infrastructure;
+using StockMarket.Infrastructure.Identity;
+using StockMarket.Infrastructure.Persistence;
+using StockMarket.Web;
+using StockMarket.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Testing")
@@ -23,9 +29,18 @@ try
             .Enrich.FromLogContext();
     });
 
+    // Presentation, Application & Infrastructure services
+    builder.Services.AddWebServices(builder.Environment);
+    builder.Services.AddApplicationServices();
+    builder.Services.AddInfrastructure(builder.Configuration);
+
+    // Identity
     builder.Services
-        .AddWebServices(builder.Environment);
-    //.AddApplicationServices(); // TODO: Uncomment when concrete implementations are available
+        .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+    builder.Services.AddHttpContextAccessor(); // Current Authenticated user.
+    builder.Services.AddScoped<ICurrentUserService, HttpContextCurrentUserService>();
 
     var app = builder.Build();
 
@@ -44,7 +59,7 @@ try
     app.UseHttpsRedirection();
     app.UseRouting();
 
-    //app.UseAuthentication(); // TODO: Add authentication
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapStaticAssets();
