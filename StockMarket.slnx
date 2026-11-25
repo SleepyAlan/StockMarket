@@ -9,6 +9,7 @@
     <Project Path="StockMarket.Application.Tests/StockMarket.Application.Tests.csproj" />
     <Project Path="StockMarket.Domain.Tests/StockMarket.Domain.Tests.csproj" />
     <Project Path="StockMarket.Infrastructure.Tests/StockMarket.Infrastructure.Tests.csproj" />
+    <Project Path="StockMarket.IntegrationTests/StockMarket.IntegrationTests.csproj" Id="e603a824-a253-4035-878f-420bb6a429ae" />
     <Project Path="StockMarket.Web.Tests/StockMarket.Web.Tests.csproj" />
   </Folder>
 </Solution>
